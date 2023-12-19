@@ -1,0 +1,164 @@
+import pandas as pd
+import numpy as np
+
+# Load the data
+data = pd.read_csv('credit_data_norm.csv')
+
+# Drop rows with any missing values
+data_cleaned = data.dropna()
+
+# Fill missing values with mean of the column
+data_filled = data.fillna(data.mean())
+
+# Calculate IQR
+Q1 = data.quantile(0.25)
+Q3 = data.quantile(0.75)
+IQR = Q3 - Q1
+
+# Filtering out outliers
+data_no_outliers = data[~((data < (Q1 - 1.5 * IQR)) | (data > (Q3 + 1.5 * IQR))).any(axis=1)]
+
+# Assuming 'data' is the DataFrame containing your credit card data
+print(data.isnull().sum())
+
+# Get descriptive statistics for numerical columns
+print(data.describe())
+
+# Visualize distributions or boxplots for numerical columns
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Example using Seaborn to visualize distribution of 'purchases_2' column
+sns.boxplot(x=data['purchases_2'])
+plt.show()
+
+# Your DataFrame (replace this with your actual DataFrame)
+data = pd.DataFrame({
+    'xslth_balance_0': ['-0.080006459', '0.086014844', '0.048871883'],  # Sample data
+    'fmeyv_balance_frequency_1': ['-0.059088726', '0.031820274', '0.122729274'],  # Sample data
+    # Add other columns here with their respective data
+})
+
+# Convert a specific column to numeric
+data['xslth_balance_0'] = pd.to_numeric(data['xslth_balance_0'], errors='coerce')
+
+# Display the updated DataFrame
+print(data)
+
+# Removing duplicates based on all columns
+data_no_duplicates = data.drop_duplicates()
+
+data_cleaned.to_csv('credit_data_cleaned.csv', index=False)
+
+from sklearn.preprocessing import MinMaxScaler
+
+# Your data (replace 'your_data' with your actual variable name)
+# Assuming your data is in a pandas DataFrame
+# Replace 'your_data' and 'column_names' with your actual variable and column names
+scaler = MinMaxScaler()
+your_data[['xslth_balance_0', 'fmeyv_balance_frequency_1', 'pwnjx_purchases_2', 'dxuli_oneoff_purchases_3', 'ojukq_installments_purchases_4', 'bvnag_cash_advance_5', 'gdoka_purchases_frequency_6', 'vozgu_oneoff_purchases_frequency_7', 'byefw_purchases_installments_frequency_8', 'jltvu_cash_advance_frequency_9', 'pmfyh_cash_advance_trx_10', 'jgcmz_purchases_trx_11', 'ehdqb_credit_limit_12', 'matvy_payments_13', 'itzsv_minimum_payments_14', 'ubvma_prc_full_payment_15', 'lkrsn_tenure_16']] = scaler.fit_transform(your_data[['xslth_balance_0', 'fmeyv_balance_frequency_1', 'pwnjx_purchases_2', 'dxuli_oneoff_purchases_3', 'ojukq_installments_purchases_4', 'bvnag_cash_advance_5', 'gdoka_purchases_frequency_6', 'vozgu_oneoff_purchases_frequency_7', 'byefw_purchases_installments_frequency_8', 'jltvu_cash_advance_frequency_9', 'pmfyh_cash_advance_trx_10', 'jgcmz_purchases_trx_11', 'eh
+
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+standardized_data = scaler.fit_transform(data)
+
+from sklearn.preprocessing import PowerTransformer
+
+# Apply power transformation (Yeo-Johnson)
+pt = PowerTransformer(method='yeo-johnson')
+power_transformed_data = pt.fit_transform(data)
+
+from sklearn.preprocessing import KBinsDiscretizer
+
+# Bin continuous data into intervals
+kbins = KBinsDiscretizer(n_bins=5, encode='ordinal', strategy='uniform')
+binned_data = kbins.fit_transform(data)
+
+from sklearn.preprocessing import RobustScaler
+
+# Use robust scaling to handle outliers
+robust_scaler = RobustScaler()
+robust_scaled_data = robust_scaler.fit_transform(data)
+
+# Dropping rows with any missing values
+df.dropna(inplace=True)
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+# Assuming your data is stored in a variable named 'data'
+# Separate features (X) and the target variable (y)
+X = data.drop(columns=['vozgu_oneoff_purchases_frequency_7'])
+y = data['jgcmz_purchases_trx_11']
+
+# Handle missing values if any
+# ... (use techniques like imputation or removal)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Logistic Regression model
+model = LogisticRegression()
+
+# Train the model using the training sets
+model.fit(X_train, y_train)
+
+# Make predictions using the testing set
+y_pred = model.predict(X_test)
+
+# Evaluate the model (e.g., accuracy, precision, recall, etc.)
+# ... (use appropriate evaluation metrics)
+
+from sklearn.impute import SimpleImputer
+
+# Assuming 'X' contains your feature data with missing values
+imputer = SimpleImputer(strategy='mean')  # You can change the strategy as needed
+X_imputed = imputer.fit_transform(X)
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+# Assuming your data is stored in a variable named 'data'
+# Separate features (X) and the target variable (y)
+X = data.drop(columns=['vozgu_oneoff_purchases_frequency_7'])
+y = data['jgcmz_purchases_trx_11']
+
+# Handle missing values if any
+# ... (use techniques like imputation or removal)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Logistic Regression model
+model = LogisticRegression(max_iter=1000)  # Increase max_iter for convergence
+
+# Train the model using the training sets
+model.fit(X_train, y_train)
+
+# Make predictions using the testing set
+y_pred = model.predict(X_test)
+
+# Evaluate the model (e.g., accuracy, precision, recall, etc.)
+from sklearn.metrics import accuracy_score, classification_report
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy}")
+
+# Additional evaluation metrics if needed
+report = classification_report(y_test, y_pred)
+print(f"Classification Report:\n{report}")
+
+# Make predictions using the testing set
+y_pred = model.predict(X_test)
+
+from sklearn.metrics import accuracy_score, classification_report
+
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy}")
+
+# Generate a classification report
+report = classification_report(y_test, y_pred)
+print(f"Classification Report:\n{report}")
+
